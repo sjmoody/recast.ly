@@ -6,13 +6,17 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      video: exampleVideoData[0],
-      videos: exampleVideoData
+      currentVideo: exampleVideoData[0],
+      allVideos: exampleVideoData,
+      // video: exampleVideoData[0],
+      // videos: exampleVideoData
     };
+    this.onVideoListEntryClick = this.onVideoListEntryClick.bind(this);
   }
 
   onVideoListEntryClick(v) {
-    this.setState({video: v});
+    console.log("onVideoListEntryClick");
+    this.setState({currentVideo: v});
   }
 
   render() {
@@ -25,10 +29,10 @@ class App extends React.Component {
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <VideoPlayer video={this.state.video} />
+            <VideoPlayer video={this.state.currentVideo} />
           </div>
           <div className="col-md-5">
-            <VideoList videos={this.state.videos} />
+            <VideoList videos={this.state.allVideos} onVideoListEntryClick={this.onVideoListEntryClick} />
           </div>
         </div>
       </div>
