@@ -1,6 +1,7 @@
 var VideoPlayer = (props) => {
   if (props.video && props.video.id && props.video.id.videoId) {
     // console.log(props.video.id.videoId);
+    console.log("rendering videoPlayer");
     return (
       <div className="video-player">
         <div className="embed-responsive embed-responsive-16by9">
@@ -13,6 +14,7 @@ var VideoPlayer = (props) => {
       </div>
     );
   } else {
+    console.log("failed to render");
     return (<div className="video-player"></div>);
   }
 

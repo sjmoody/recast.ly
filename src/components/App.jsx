@@ -48,6 +48,8 @@ class App extends React.Component {
       console.log('searching youtube for ' + query);
 
       searchYouTube(query, (response) => {
+        // Trying to debug error here where searches fail after a few renders
+        if (response.error) { console.log("error in search"); }
         this.setState({
           allVideos: response,
           currentVideo: response[0],
@@ -56,11 +58,6 @@ class App extends React.Component {
       });
 
     }
-
-
-
-
-
 
   }
 
@@ -79,28 +76,44 @@ class App extends React.Component {
   }
 
   render() {
-    // if (this.state.hasError) {
-    //   return <h1>Something went wrong!</h1>;
-    // }
-    return (
-      <div>
-        <nav className="navbar">
-          <div className="col-md-6 offset-md-3">
-            <div>
-              <Search handleOnInputChange={this.handleOnInputChange} />
+    if (this.state.allVideos.length > 0 ) {
+      return (
+        <div>
+          <nav className="navbar">
+            <div className="col-md-6 offset-md-3">
+              <div>
+                <Search handleOnInputChange={this.handleOnInputChange} />
+              </div>
+            </div>
+          </nav>
+          <div className="row">
+            <div className="col-md-7">
+              <VideoPlayer video={this.state.currentVideo} />
+            </div>
+            <div className="col-md-5">
+              <VideoList videos={this.state.allVideos} onVideoListEntryClick={this.onVideoListEntryClick} />
             </div>
           </div>
-        </nav>
-        <div className="row">
-          <div className="col-md-7">
-            <VideoPlayer video={this.state.currentVideo} />
-          </div>
-          <div className="col-md-5">
-            <VideoList videos={this.state.allVideos} onVideoListEntryClick={this.onVideoListEntryClick} />
-          </div>
         </div>
-      </div>
-    );
+      );
+
+    } else {
+      return (
+        <div>
+          <nav className="navbar">
+            <div className="col-md-6 offset-md-3">
+              <div>
+                <Search handleOnInputChange={this.handleOnInputChange} />
+              </div>
+            </div>
+          </nav>
+          <h1>No Results Found</h1>
+          <div className="video-player"></div>
+          <div className='video-list'></div>
+        </div>
+      );
+    }
+
   }
 }
 
