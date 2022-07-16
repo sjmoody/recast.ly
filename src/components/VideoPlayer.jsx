@@ -1,14 +1,25 @@
-var VideoPlayer = (props) => (
-  <div className="video-player">
-    <div className="embed-responsive embed-responsive-16by9">
-      <iframe className="embed-responsive-item" src={`https://www.youtube.com/embed/${props.video.id.videoId}`} allowFullScreen></iframe>
-    </div>
-    <div className="video-player-details">
-      <h3>{props.video.snippet.title}</h3>
-      <div>{props.video.snippet.description}</div>
-    </div>
-  </div>
-);
+var VideoPlayer = (props) => {
+  if (!props.video.id) {
+    // this doesn't run
+    console.log("video is null");
+    return (<div className="video-player"></div>);
+
+  } else {
+    console.log(props.video.id.videoId);
+    return (
+      <div className="video-player">
+        <div className="embed-responsive embed-responsive-16by9">
+          <iframe className="embed-responsive-item" src={`https://www.youtube.com/embed/${props.video.id.videoId}`} allowFullScreen></iframe>
+        </div>
+        <div className="video-player-details">
+          <h3>{props.video.snippet.title}</h3>
+          <div>{props.video.snippet.description}</div>
+        </div>
+      </div>
+    );
+  }
+
+};
 
 // PropTypes tell other developers what `props` a component expects
 // Warnings will be shown in the console when the defined rules are violated

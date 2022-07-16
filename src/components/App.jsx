@@ -1,25 +1,44 @@
 import exampleVideoData from '../data/exampleVideoData.js';
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
+import searchYouTube from '../lib/searchYouTube.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentVideo: exampleVideoData[0],
-      allVideos: exampleVideoData,
+      currentVideo: {},
+      allVideos: [],
+      hasError: false
       // video: exampleVideoData[0],
       // videos: exampleVideoData
     };
     this.onVideoListEntryClick = this.onVideoListEntryClick.bind(this);
   }
 
+  // static getDerivedStateFromError(error) {
+  //   // Update state so the next render will show the fallback UI.
+  //   return { hasError: true };
+  // }
+
   onVideoListEntryClick(v) {
     console.log("onVideoListEntryClick");
     this.setState({currentVideo: v});
   }
 
+  componentDidMount() {
+    searchYouTube('', (response) => {
+      this.setState({
+        allVideos: response,
+        currentVideo: response[0]
+      });
+    });
+  }
+
   render() {
+    // if (this.state.hasError) {
+    //   return <h1>Something went wrong!</h1>;
+    // }
     return (
       <div>
         <nav className="navbar">
