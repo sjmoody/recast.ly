@@ -2,6 +2,7 @@ import exampleVideoData from '../data/exampleVideoData.js';
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
 import searchYouTube from '../lib/searchYouTube.js';
+import Search from './Search.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,17 +10,40 @@ class App extends React.Component {
     this.state = {
       currentVideo: {},
       allVideos: [],
-      hasError: false
+      hasError: false,
+      isSearching: false
       // video: exampleVideoData[0],
       // videos: exampleVideoData
     };
     this.onVideoListEntryClick = this.onVideoListEntryClick.bind(this);
+    this.handleOnInputChange = this.handleOnInputChange.bind(this);
   }
 
   // static getDerivedStateFromError(error) {
   //   // Update state so the next render will show the fallback UI.
   //   return { hasError: true };
   // }
+
+  // func on searchBoxChange(){make a new youtube search}
+
+  // or setinterval and get state from search box every 500ms
+
+  handleOnInputChange(event) {
+    const query = event.target.value;
+    // console.log(event);
+    // console.log(query);
+    this.setState({query});
+    this.setState({
+      isSearching: true
+    });
+    searchYouTube(query, (response) => {
+      this.setState({
+        allVideos: response,
+        currentVideo: response[0],
+        isSearching: false
+      });
+    });
+  }
 
   onVideoListEntryClick(v) {
     console.log("onVideoListEntryClick");
@@ -43,7 +67,9 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <div>
+              <Search handleOnInputChange={this.handleOnInputChange} />
+            </div>
           </div>
         </nav>
         <div className="row">
