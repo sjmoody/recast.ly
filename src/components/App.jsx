@@ -31,18 +31,37 @@ class App extends React.Component {
   handleOnInputChange(event) {
     const query = event.target.value;
     // console.log(event);
-    // console.log(query);
-    this.setState({query});
-    this.setState({
-      isSearching: true
-    });
-    searchYouTube(query, (response) => {
+
+    this.setState({query: query});
+
+    // Check state. If isSearch true, wait 500 ms and then try.
+    if (this.state.isSearching) {
+      console.log("too many searches");
+
+
+    } else {
+    // if isSearch is false, change to true and run Search
+
       this.setState({
-        allVideos: response,
-        currentVideo: response[0],
-        isSearching: false
+        isSearching: true
       });
-    });
+      console.log('searching youtube for ' + query);
+
+      searchYouTube(query, (response) => {
+        this.setState({
+          allVideos: response,
+          currentVideo: response[0],
+          isSearching: false
+        });
+      });
+
+    }
+
+
+
+
+
+
   }
 
   onVideoListEntryClick(v) {

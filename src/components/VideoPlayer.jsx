@@ -1,10 +1,6 @@
 var VideoPlayer = (props) => {
-  if (!props.video.id) {
-
-    return (<div className="video-player"></div>);
-
-  } else {
-    console.log(props.video.id.videoId);
+  if (props.video && props.video.id && props.video.id.videoId) {
+    // console.log(props.video.id.videoId);
     return (
       <div className="video-player">
         <div className="embed-responsive embed-responsive-16by9">
@@ -16,6 +12,8 @@ var VideoPlayer = (props) => {
         </div>
       </div>
     );
+  } else {
+    return (<div className="video-player"></div>);
   }
 
 };
